@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 4. 更新文字信息
         setTimeout(() => {
-            title.innerText = "生日快乐 Leo！";
+            title.innerText = "愿望实现！";
             instruction.innerText = "🩷❤️💛🩵💚🧡";
             wishMessage.classList.remove('hidden');
             wishMessage.classList.add('show-message');
