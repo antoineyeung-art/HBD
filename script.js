@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const flames = document.querySelectorAll('.flame');
-    const wishMessage = document.getElementById('wish-message');
     const instruction = document.getElementById('instruction');
     const title = document.getElementById('title');
     const startBtn = document.getElementById('start-btn');
     const cakeClickArea = document.getElementById('cake-click-area');
-    const bgm = document.getElementById('bgm'); // 获取音乐元素
+    // 获取新增的视频元素
+    const videoContainer = document.getElementById('video-container');
+    const birthdayVideo = document.getElementById('birthday-video');
 
     let isBlownOut = false;
     let audioContext;
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let microphone;
     let javascriptNode;
 
-    // --- 核心功能：熄灭蜡烛 ---
+    // --- 核心功能：熄灭蜡烛并播放视频 ---
     function blowOutCandles() {
         if (isBlownOut) return;
         isBlownOut = true;
@@ -23,33 +24,39 @@ document.addEventListener('DOMContentLoaded', () => {
             flame.classList.add('blown-out');
         });
 
-        // 2. 播放音乐 🎵
-        bgm.play().catch(error => {
-            console.log("自动播放被阻止，可能是因为浏览器策略", error);
-        });
-
-        // 3. 发射彩带 🎉
-        // 第一次喷射
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-        });
-        
-        // 为了更热闹，延迟一点点再喷射两波
+        // 2. 发射彩带 (气氛搞起来!)
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         setTimeout(() => {
             confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } });
             confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 } });
         }, 250);
 
-        // 4. 更新文字信息
+        // 更新标题和说明
+        title.innerText = "愿望通通实现！";
+        instruction.innerText = "❤️🧡💛💚🩵💙💜";
+        startBtn.style.display = 'none'; // 立刻隐藏按钮
+
+        // 3. 蛋糕慢慢消失
+        // 给蛋糕容器加上 fade-out 类，触发 CSS 里的 1秒透明度过渡动画
+        cakeClickArea.classList.add('fade-out');
+
+        // 4. 等待1秒动画结束，然后隐藏蛋糕，显示并播放视频
         setTimeout(() => {
-            title.innerText = "愿望实现！";
-            instruction.innerText = "🩷❤️💛🩵💚🧡";
-            wishMessage.classList.remove('hidden');
-            wishMessage.classList.add('show-message');
-            startBtn.style.display = 'none';
-        }, 600);
+            // 彻底隐藏蛋糕占位
+            cakeClickArea.style.display = 'none';
+            
+            // 显示视频容器
+            videoContainer.classList.remove('hidden');
+            videoContainer.classList.add('show-message'); // 复用之前的淡入动画
+
+            // 播放视频 (带声音)
+            // 因为用户之前有过点击交互，这里自动播放带声音通常是允许的
+            birthdayVideo.play().catch(error => {
+                console.error("视频播放失败，可能是浏览器限制:", error);
+                instruction.innerText = "请点击视频开始播放！"; // 如果失败，提示用户手动点
+            });
+
+        }, 1000); // 这个 1000ms 要和 CSS 里的 transition: opacity 1s 保持一致
 
         // 停止录音
         if (microphone) {
@@ -69,9 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
         startBtn.innerText = "正在监听中...";
         startBtn.disabled = true;
 
-        // 这里有个小技巧：用户点击按钮时，我们先把音乐“预加载”一下
-        // 这样后面吹气触发播放时，成功率更高（绕过浏览器自动播放限制）
-        bgm.load();
+        // 在用户点击开始时，预加载一下视频，提高稍后自动播放的成功率
+        birthdayVideo.load();
 
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
             .then(stream => {
@@ -89,18 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 javascriptNode.onaudioprocess = function() {
                     if (isBlownOut) return;
-
                     const array = new Uint8Array(analyser.frequencyBinCount);
                     analyser.getByteFrequencyData(array);
-
                     let values = 0;
                     const length = array.length;
-                    for (let i = 0; i < length; i++) {
-                        values += array[i];
-                    }
+                    for (let i = 0; i < length; i++) { values += array[i]; }
                     const average = values / length;
 
-                    // 阈值检测
                     if (average > 30) {
                         blowOutCandles();
                     }
