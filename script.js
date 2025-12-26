@@ -4,9 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = document.getElementById('title');
     const startBtn = document.getElementById('start-btn');
     const cakeClickArea = document.getElementById('cake-click-area');
-    // 获取新增的视频元素
     const videoContainer = document.getElementById('video-container');
     const birthdayVideo = document.getElementById('birthday-video');
+    // 重新获取文字元素
+    const wishMessage = document.getElementById('wish-message');
 
     let isBlownOut = false;
     let audioContext;
@@ -14,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let microphone;
     let javascriptNode;
 
-    // --- 核心功能：熄灭蜡烛并播放视频 ---
     function blowOutCandles() {
         if (isBlownOut) return;
         isBlownOut = true;
@@ -24,39 +24,39 @@ document.addEventListener('DOMContentLoaded', () => {
             flame.classList.add('blown-out');
         });
 
-        // 2. 发射彩带 (气氛搞起来!)
+        // 2. 发射彩带
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         setTimeout(() => {
             confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } });
             confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 } });
         }, 250);
 
-        // 更新标题和说明
-        title.innerText = "愿望通通实现！";
+        title.innerText = "～臭宝起飞～";
         instruction.innerText = "❤️🧡💛💚🩵💙💜";
-        startBtn.style.display = 'none'; // 立刻隐藏按钮
+        startBtn.style.display = 'none'; 
 
         // 3. 蛋糕慢慢消失
-        // 给蛋糕容器加上 fade-out 类，触发 CSS 里的 1秒透明度过渡动画
         cakeClickArea.classList.add('fade-out');
 
-        // 4. 等待1秒动画结束，然后隐藏蛋糕，显示并播放视频
+        // 4. 等待1秒动画结束，显示视频 和 文字
         setTimeout(() => {
-            // 彻底隐藏蛋糕占位
             cakeClickArea.style.display = 'none';
             
-            // 显示视频容器
+            // 显示视频
             videoContainer.classList.remove('hidden');
-            videoContainer.classList.add('show-message'); // 复用之前的淡入动画
+            videoContainer.classList.add('show-message');
 
-            // 播放视频 (带声音)
-            // 因为用户之前有过点击交互，这里自动播放带声音通常是允许的
+            // 显示“愿望实现”文字
+            wishMessage.classList.remove('hidden');
+            wishMessage.classList.add('show-message');
+
+            // 播放视频
             birthdayVideo.play().catch(error => {
-                console.error("视频播放失败，可能是浏览器限制:", error);
-                instruction.innerText = "请点击视频开始播放！"; // 如果失败，提示用户手动点
+                console.error("视频播放失败:", error);
+                instruction.innerText = "请点击视频开始播放！"; 
             });
 
-        }, 1000); // 这个 1000ms 要和 CSS 里的 transition: opacity 1s 保持一致
+        }, 1000); 
 
         // 停止录音
         if (microphone) {
@@ -67,16 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 备用方案：点击熄灭 ---
+    // --- 点击与麦克风逻辑保持不变 ---
     cakeClickArea.addEventListener('click', blowOutCandles);
 
-    // --- 进阶方案：麦克风吹气检测 ---
     startBtn.addEventListener('click', () => {
         instruction.innerText = "正在监听...请对着麦克风用力吹气！";
         startBtn.innerText = "正在监听中...";
         startBtn.disabled = true;
 
-        // 在用户点击开始时，预加载一下视频，提高稍后自动播放的成功率
         birthdayVideo.load();
 
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
