@@ -1,5 +1,5 @@
 body {
-    background-color: #f0e6ff;
+    background-color: #fff8e1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +14,7 @@ body {
 }
 
 h1 {
-    color: #5a3e85;
+    color: #5d4037;
 }
 
 p {
@@ -38,13 +38,13 @@ p {
 #start-btn {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #ff4081;
+    background-color: #ff7043;
     color: white;
     border: none;
     border-radius: 20px;
     cursor: pointer;
     font-size: 16px;
-    box-shadow: 0 4px #e03070;
+    box-shadow: 0 4px #d84315;
     transition: all 0.1s;
 }
 
@@ -84,7 +84,7 @@ p {
     width: 250px; 
     bottom: 0; /* 紧贴底部 */
     z-index: 1; 
-    background-color: #f8b3d0;
+    background-color: #5d4037;
 }
 
 .layer-middle { 
@@ -92,7 +92,7 @@ p {
     width: 230px; 
     bottom: 50px; /* 放在底层上面 */
     z-index: 2; 
-    background-color: #ffcce0;
+    background-color: #795548;
     /* 去掉了原来的 left: 10px */
 }
 
@@ -101,7 +101,7 @@ p {
     width: 210px; 
     bottom: 95px; /* 放在中层上面 */
     z-index: 3; 
-    background-color: #ffe6f2;
+    background-color: #8d6e63;
     /* 去掉了原来的 left: 20px */
 }
 
@@ -111,20 +111,20 @@ p {
     left: 0;
     width: 100%;
     height: 15px;
-    background-color: #fff;
+    background-color: #ffccbc;
     border-radius: 10px 10px 0 0;
     /* 奶油滴落效果 */
-    background-image: radial-gradient(circle at 10px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 30px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 50px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 70px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 90px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 110px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 130px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 150px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 170px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 190px 10px, #fff 10px, transparent 11px),
-                      radial-gradient(circle at 210px 10px, #fff 10px, transparent 11px);
+    background-image: radial-gradient(circle at 10px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 30px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 50px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 70px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 90px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 110px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 130px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 150px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 170px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 190px 10px, #ffccbc 10px, transparent 11px),
+                      radial-gradient(circle at 210px 10px, #ffccbc 10px, transparent 11px);
     background-position: 0 5px;
 }
 
