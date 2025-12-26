@@ -66,19 +66,44 @@ p {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 100%; /* 新增：让它占满容器，方便内部定位 */
 }
 
 .layer {
-    width: 100%;
-    background-color: #ffcce0; /* 粉色蛋糕胚 */
+    position: absolute; /* 关键修改：改为绝对定位，让它们能叠起来 */
+    left: 50%; /* 新增：配合下一行实现水平居中 */
+    transform: translateX(-50%); /* 新增：水平居中 */
+    /* width: 100%; <-- 删除原来这一行，因为下面具体定义了宽度 */
+    background-color: #ffcce0; 
     border-radius: 10px;
-    position: relative;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.layer-bottom { height: 50px; width: 250px; z-index: 1; background-color: #f8b3d0;}
-.layer-middle { height: 45px; width: 230px; left: 10px; bottom: 50px; z-index: 2; background-color: #ffcce0;}
-.layer-top { height: 45px; width: 210px; left: 20px; bottom: 95px; z-index: 3; background-color: #ffe6f2;}
+.layer-bottom { 
+    height: 50px; 
+    width: 250px; 
+    bottom: 0; /* 紧贴底部 */
+    z-index: 1; 
+    background-color: #f8b3d0;
+}
+
+.layer-middle { 
+    height: 45px; 
+    width: 230px; 
+    bottom: 50px; /* 放在底层上面 */
+    z-index: 2; 
+    background-color: #ffcce0;
+    /* 去掉了原来的 left: 10px */
+}
+
+.layer-top { 
+    height: 45px; 
+    width: 210px; 
+    bottom: 95px; /* 放在中层上面 */
+    z-index: 3; 
+    background-color: #ffe6f2;
+    /* 去掉了原来的 left: 20px */
+}
 
 .icing {
     position: absolute;
