@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐！</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="title">Leo生日快乐！许个愿吧！</h1>
+        <p id="instruction">请允许使用麦克风，然后对着屏幕吹气，或者点击蛋糕！</p>
+
+        <div class="cake-container" id="cake-click-area">
+            <div class="candles">
+                <div class="candle c1">
+                    <div class="flame"></div>
+                    <div class="wick"></div>
+                </div>
+                <div class="candle c2">
+                    <div class="flame"></div>
+                    <div class="wick"></div>
+                </div>
+                <div class="candle c3">
+                    <div class="flame"></div>
+                    <div class="wick"></div>
+                </div>
+            </div>
+
+            <div class="cake">
+                <div class="layer layer-top">
+                    <div class="icing"></div>
+                </div>
+                <div class="layer layer-middle"></div>
+                <div class="layer layer-bottom"></div>
+            </div>
+        </div>
+        
+        <button id="start-btn">开始许愿 (启用麦克风)</button>
+        <h2 id="wish-message" class="hidden">臭宝起飞！🎉🎉🎉</h2>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

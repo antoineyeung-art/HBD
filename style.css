@@ -1,0 +1,169 @@
+body {
+    background-color: #f0e6ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+}
+
+.container {
+    padding: 20px;
+}
+
+h1 {
+    color: #5a3e85;
+}
+
+p {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+.show-message {
+    display: block;
+    opacity: 1;
+    color: #ff4081;
+    animation: popUp 0.5s ease-out;
+}
+
+#start-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px #e03070;
+    transition: all 0.1s;
+}
+
+#start-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 #e03070;
+}
+
+/* --- 蛋糕样式 --- */
+.cake-container {
+    position: relative;
+    width: 250px;
+    height: 200px;
+    margin: 0 auto;
+    cursor: pointer; /* 提示可以点击 */
+}
+
+.cake {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.layer {
+    width: 100%;
+    background-color: #ffcce0; /* 粉色蛋糕胚 */
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.layer-bottom { height: 50px; width: 250px; z-index: 1; background-color: #f8b3d0;}
+.layer-middle { height: 45px; width: 230px; left: 10px; bottom: 50px; z-index: 2; background-color: #ffcce0;}
+.layer-top { height: 45px; width: 210px; left: 20px; bottom: 95px; z-index: 3; background-color: #ffe6f2;}
+
+.icing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 10px 10px 0 0;
+    /* 奶油滴落效果 */
+    background-image: radial-gradient(circle at 10px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 30px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 50px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 70px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 90px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 110px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 130px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 150px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 170px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 190px 10px, #fff 10px, transparent 11px),
+                      radial-gradient(circle at 210px 10px, #fff 10px, transparent 11px);
+    background-position: 0 5px;
+}
+
+/* --- 蜡烛样式 --- */
+.candles {
+    position: absolute;
+    top: 30px;
+    width: 100%;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.candle {
+    width: 10px;
+    height: 35px;
+    background: repeating-linear-gradient(45deg, #6fdcbf, #6fdcbf 5px, #fff 5px, #fff 10px);
+    position: relative;
+    border-radius: 3px;
+}
+
+.wick {
+    width: 2px;
+    height: 6px;
+    background-color: #333;
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* --- 火焰样式与动画 --- */
+.flame {
+    width: 14px;
+    height: 20px;
+    background: radial-gradient(ellipse at center, #ffeb3b 0%, #ff9800 60%, #ff5722 100%);
+    border-radius: 50% 50% 20% 20%;
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: flicker 0.5s infinite alternate;
+    transform-origin: center bottom;
+    opacity: 0.9;
+    transition: all 0.5s ease-out; /* 熄灭时的过渡动画 */
+}
+
+/* 火焰熄灭的状态 */
+.flame.blown-out {
+    transform: translateX(-50%) scale(0.1); /* 缩小 */
+    opacity: 0; /* 变透明 */
+}
+
+/* 火焰跳动动画 */
+@keyframes flicker {
+    0% { transform: translateX(-50%) scale(1); rotate: -2deg; }
+    50% { transform: translateX(-50%) scale(1.1); rotate: 2deg; opacity: 1; }
+    100% { transform: translateX(-50%) scale(0.95); rotate: -1deg; }
+}
+
+/* 祝福语弹出动画 */
+@keyframes popUp {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
