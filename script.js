@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = document.getElementById('title');
     const startBtn = document.getElementById('start-btn');
     const cakeClickArea = document.getElementById('cake-click-area');
+    const bgm = document.getElementById('bgm'); // 获取音乐元素
 
     let isBlownOut = false;
     let audioContext;
@@ -14,24 +15,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 核心功能：熄灭蜡烛 ---
     function blowOutCandles() {
-        if (isBlownOut) return; // 防止重复触发
+        if (isBlownOut) return;
         isBlownOut = true;
 
-        // 给所有火焰添加熄灭的CSS类
+        // 1. 熄灭火焰
         flames.forEach(flame => {
             flame.classList.add('blown-out');
         });
 
-        // 更新文字信息
+        // 2. 播放音乐 🎵
+        bgm.play().catch(error => {
+            console.log("自动播放被阻止，可能是因为浏览器策略", error);
+        });
+
+        // 3. 发射彩带 🎉
+        // 第一次喷射
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+        
+        // 为了更热闹，延迟一点点再喷射两波
         setTimeout(() => {
-            title.innerText = "生日快乐！";
-            instruction.innerText = "愿你年年有今日，岁岁有今朝！";
+            confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } });
+            confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 } });
+        }, 250);
+
+        // 4. 更新文字信息
+        setTimeout(() => {
+            title.innerText = "生日快乐 Leo！";
+            instruction.innerText = "🩷❤️💛🩵💚🧡";
             wishMessage.classList.remove('hidden');
             wishMessage.classList.add('show-message');
-            startBtn.style.display = 'none'; // 隐藏按钮
-        }, 600); // 稍微延迟一点显示祝福语，等火焰熄灭动画完成
+            startBtn.style.display = 'none';
+        }, 600);
 
-        // 停止录音（如果开启了）
+        // 停止录音
         if (microphone) {
             microphone.mediaStream.getTracks().forEach(track => track.stop());
         }
@@ -43,14 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 备用方案：点击熄灭 ---
     cakeClickArea.addEventListener('click', blowOutCandles);
 
-
     // --- 进阶方案：麦克风吹气检测 ---
     startBtn.addEventListener('click', () => {
         instruction.innerText = "正在监听...请对着麦克风用力吹气！";
         startBtn.innerText = "正在监听中...";
         startBtn.disabled = true;
 
-        // 尝试获取麦克风权限
+        // 这里有个小技巧：用户点击按钮时，我们先把音乐“预加载”一下
+        // 这样后面吹气触发播放时，成功率更高（绕过浏览器自动播放限制）
+        bgm.load();
+
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
             .then(stream => {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -73,16 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     let values = 0;
                     const length = array.length;
-                    // 计算平均音量
                     for (let i = 0; i < length; i++) {
                         values += array[i];
                     }
                     const average = values / length;
 
-                    console.log("当前音量:", average);
-
-                    // 阈值设置：如果检测到音量大于 30 (这个值可以根据实际情况调整)，认为是在吹气
-                    // 吹气的声音通常含有较多低频和高频杂音，平均音量会瞬间升高
+                    // 阈值检测
                     if (average > 30) {
                         blowOutCandles();
                     }
