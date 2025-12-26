@@ -28,7 +28,6 @@
                     <div class="wick"></div>
                 </div>
             </div>
-
             <div class="cake">
                 <div class="layer layer-top">
                     <div class="icing"></div>
@@ -37,12 +36,13 @@
                 <div class="layer layer-bottom"></div>
             </div>
         </div>
+
+        <div id="video-container" class="hidden">
+            <video id="birthday-video" src="birthday_video.mp4" controls playsinline style="width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></video>
+        </div>
         
         <button id="start-btn">开始许愿 (启用麦克风)</button>
-        <h2 id="wish-message" class="hidden">臭宝起飞！🎉🎉🎉</h2>
-        
-        <audio id="bgm" src="birthday.mp3" preload="auto"></audio>
-    </div>
+        </div>
 
     <script src="script.js"></script>
 </body>
