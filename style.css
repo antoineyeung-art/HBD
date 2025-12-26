@@ -192,3 +192,21 @@ p {
     80% { transform: scale(1.1); opacity: 1; }
     100% { transform: scale(1); opacity: 1; }
 }
+
+/* ... 保持之前的 CSS 不变 ... */
+
+/* --- 新增：慢慢消失的效果 --- */
+.fade-out {
+    opacity: 0;
+    /* 1s ease-out 表示在1秒内慢慢变得透明 */
+    transition: opacity 1s ease-out;
+}
+
+/* 调整一下视频容器的外边距，让它出现时位置好看点 */
+#video-container {
+    margin-top: 20px;
+    /* 限制最大宽度，防止在电脑上看太大 */
+    max-width: 500px; 
+    margin-left: auto;
+    margin-right: auto;
+}
