@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cakeClickArea = document.getElementById('cake-click-area');
     const videoContainer = document.getElementById('video-container');
     const birthdayVideo = document.getElementById('birthday-video');
-    // 重新获取文字元素
     const wishMessage = document.getElementById('wish-message');
 
     let isBlownOut = false;
@@ -14,6 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let analyser;
     let microphone;
     let javascriptNode;
+
+    // --- 新增：点击视频也能暂停/播放（因为去掉了控制条） ---
+    birthdayVideo.addEventListener('click', () => {
+        if (birthdayVideo.paused) {
+            birthdayVideo.play();
+        } else {
+            birthdayVideo.pause();
+        }
+    });
 
     function blowOutCandles() {
         if (isBlownOut) return;
@@ -38,19 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3. 蛋糕慢慢消失
         cakeClickArea.classList.add('fade-out');
 
-        // 4. 等待1秒动画结束，显示视频 和 文字
+        // 4. 等待1秒动画结束
         setTimeout(() => {
             cakeClickArea.style.display = 'none';
             
-            // 显示视频
+            // 显示视频和文字
             videoContainer.classList.remove('hidden');
             videoContainer.classList.add('show-message');
-
-            // 显示“愿望实现”文字
             wishMessage.classList.remove('hidden');
             wishMessage.classList.add('show-message');
 
-            // 播放视频
+            // 自动播放视频
             birthdayVideo.play().catch(error => {
                 console.error("视频播放失败:", error);
                 instruction.innerText = "请点击视频开始播放！"; 
@@ -67,15 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 点击与麦克风逻辑保持不变 ---
+    // --- 点击蛋糕熄灭逻辑 ---
     cakeClickArea.addEventListener('click', blowOutCandles);
 
+    // --- 麦克风逻辑 ---
     startBtn.addEventListener('click', () => {
         instruction.innerText = "正在监听...请对着麦克风用力吹气！";
         startBtn.innerText = "正在监听中...";
         startBtn.disabled = true;
 
-        birthdayVideo.load();
+        birthdayVideo.load(); // 预加载视频
 
         navigator.mediaDevices.getUserMedia({ audio: true, video: false })
             .then(stream => {
